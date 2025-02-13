@@ -1,0 +1,64 @@
+{
+  "name": "elecexpress",
+  "version": "1.0.0",
+  "description": "Simple Electron with Express app to run a website from a folder",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "electron-builder",
+    "build:win": "electron-builder --win",
+    "build:mac": "electron-builder --mac",
+    "build:linux": "electron-builder --linux"
+  },
+  "keywords": [],
+  "author": "wkthedev",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.21.2",
+    "chokidar": "^4.0.3",
+    "livereload": "^0.9.3",
+    "connect-livereload": "^0.6.1"
+  },
+  "devDependencies": {
+    "electron": "^34.2.0",
+    "electron-builder": "^25.1.8",
+    "electron-reload": "^2.0.0-alpha.1"
+  },
+  "build": {
+    "appId": "com.wkthedev.elecexpress",
+    "productName": "ElecExpress",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "main.js",
+      "node_modules/**/*",
+      "package.json",
+      "assets/icon.*",
+      "default_site/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "expressConfig.json",
+        "to": "expressConfig.json"
+      },
+      {
+        "from": "default_site",
+        "to": "default_site"
+      }
+    ],
+    "win": {
+      "target": "portable",
+      "icon": "assets/icon.ico"
+    },
+    "mac": {
+      "target": "dmg",
+      "icon": "assets/icon.icns"
+    },
+    "linux": {
+      "target": "AppImage",
+      "icon": "assets/icon.png"
+    }
+  }
+}
