@@ -2,6 +2,9 @@ const { contextBridge, ipcRenderer, clipboard, shell, Notification } = require('
 const fs = require('fs');
 const path = require('path');
 
+const appDirectory = process.env.PORTABLE_EXECUTABLE_DIR || process.cwd(); // Ensures correct path in both development & production
+const serveFolderPath = path.join(appDirectory, 'serve');
+
 contextBridge.exposeInMainWorld("electronAPI", {
     // 📌 Filesystem API - Read Files
     readFile: (filePath) => {
@@ -37,5 +40,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
             console.error("Media permission denied:", error);
             return false;
         }
-    }
+    },
+    getServeFolder: () => ipcRenderer.invoke("getServeFolder"),
+    openServeFolder: () => ipcRenderer.invoke("openServeFolder")
 });

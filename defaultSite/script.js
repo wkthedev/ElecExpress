@@ -1,5 +1,8 @@
-document.addEventListener("DOMContentLoaded", function () {
+document.addEventListener("DOMContentLoaded", async function () {
     const particleContainer = document.getElementById("particles");
+    const serveFolderElement = document.getElementById("serve-folder");
+    const openFolderButton = document.getElementById("open-folder-btn");
+    const browserWarning = document.getElementById("browser-warning");
 
     function createParticle() {
         const particle = document.createElement("div");
@@ -16,6 +19,43 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     setInterval(createParticle, 200);
+
+    // Check if running inside Electron
+    const isElectron = window.electronAPI !== undefined;
+
+    if (isElectron) {
+        try {
+            // Get serve folder from Electron
+            const serveFolder = await window.electronAPI.getServeFolder();
+            serveFolderElement.textContent = serveFolder;
+        } catch (error) {
+            console.error("Error fetching serve folder:", error);
+            serveFolderElement.textContent = "serve (default)";
+        }
+
+        // Open folder on button click
+        openFolderButton.addEventListener("click", (event) => {
+            event.preventDefault();
+            window.electronAPI.openServeFolder();
+        });
+
+        // Open folder when clicking the folder path
+        serveFolderElement.addEventListener("click", (event) => {
+            event.preventDefault();
+            window.electronAPI.openServeFolder();
+        });
+    } else {
+        // Running in a normal browser, show default message
+        serveFolderElement.textContent = "serve (default)";
+
+        // Hide "Get Started" button
+        openFolderButton.style.display = "none";
+
+        // Show browser warning
+        if (browserWarning) {
+            browserWarning.style.display = "block";
+        }
+    }
 });
 
 // Add Particles to CSS

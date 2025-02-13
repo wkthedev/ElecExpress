@@ -67,6 +67,11 @@ body {
     box-shadow: 0 0 25px rgba(255, 255, 255, 0.6);
 }
 
+#serve-folder {
+    color:cornflowerblue;
+    text-decoration-color: cornflowerblue;
+}
+
 /* Floating Particles */
 #particles {
     position: absolute;

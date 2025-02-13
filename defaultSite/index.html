@@ -13,12 +13,17 @@
 
         <div class="instructions">
             <p>🚀 To host your own site, place your files in:</p>
-            <p><code>serve/</code> inside the app folder.</p>
+            <p><a href="#"><code id="serve-folder">[Loading...]</code></a> inside the app folder.</p>
             <p>📁 Once you add files, the app will automatically reload.</p>
         </div>
+
+        <!-- 🚨 Show warning if opened in a normal browser -->
+        <p id="browser-warning" style="display: none; color: orange;">
+            ⚠️ Note: This app works best inside the Electron application.
+        </p>
         
         <div class="button-container">
-            <a href="#" class="btn">Get Started</a>
+            <a href="" class="btn" id="open-folder-btn">Get Started</a>
         </div>
     </div>
 

@@ -1,3 +1,5 @@
 {
-    "serveFolder": "serve"
+    "serveFolder": "serve",
+    "width": 1280,
+    "height": 720
 }
