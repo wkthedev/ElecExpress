@@ -5,7 +5,7 @@ const path = require('path');
 const appDirectory = process.env.PORTABLE_EXECUTABLE_DIR || process.cwd(); // Ensures correct path in both development & production
 const serveFolderPath = path.join(appDirectory, 'serve');
 
-contextBridge.exposeInMainWorld("electronAPI", {
+const electronAPI = {
     // 📌 Filesystem API - Read Files
     readFile: (filePath) => {
         try {
@@ -13,6 +13,17 @@ contextBridge.exposeInMainWorld("electronAPI", {
         } catch (error) {
             console.error("Error reading file:", error);
             return null;
+        }
+    },
+    
+    // 📌 Filesystem API - Write Files
+    writeFile: (filePath, content) => {
+        try {
+            fs.writeFileSync(filePath, content, "utf8");
+            return true; // Success
+        } catch (error) {
+            console.error("Error writing file:", error);
+            return false; // Failed to write
         }
     },
 
@@ -43,4 +54,13 @@ contextBridge.exposeInMainWorld("electronAPI", {
     },
     getServeFolder: () => ipcRenderer.invoke("getServeFolder"),
     openServeFolder: () => ipcRenderer.invoke("openServeFolder")
-});
+}
+
+// Import SQL Functions
+const sqlAPI = require("./sqlPreload");
+
+// Merge SQL API inside `electronAPI`
+electronAPI.sql = sqlAPI;
+
+// Expose the full electron API.
+contextBridge.exposeInMainWorld("electron", electronAPI);

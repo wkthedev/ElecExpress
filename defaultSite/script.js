@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", async function () {
     const serveFolderElement = document.getElementById("serve-folder");
     const openFolderButton = document.getElementById("open-folder-btn");
     const browserWarning = document.getElementById("browser-warning");
+    const socialLinks = document.querySelectorAll(".social-icon");
 
     function createParticle() {
         const particle = document.createElement("div");
@@ -21,12 +22,12 @@ document.addEventListener("DOMContentLoaded", async function () {
     setInterval(createParticle, 200);
 
     // Check if running inside Electron
-    const isElectron = window.electronAPI !== undefined;
+    const isElectron = window.electron !== undefined;
 
     if (isElectron) {
         try {
             // Get serve folder from Electron
-            const serveFolder = await window.electronAPI.getServeFolder();
+            const serveFolder = await window.electron.getServeFolder();
             serveFolderElement.textContent = serveFolder;
         } catch (error) {
             console.error("Error fetching serve folder:", error);
@@ -36,13 +37,22 @@ document.addEventListener("DOMContentLoaded", async function () {
         // Open folder on button click
         openFolderButton.addEventListener("click", (event) => {
             event.preventDefault();
-            window.electronAPI.openServeFolder();
+            window.electron.openServeFolder();
         });
 
         // Open folder when clicking the folder path
         serveFolderElement.addEventListener("click", (event) => {
             event.preventDefault();
-            window.electronAPI.openServeFolder();
+            window.electron.openServeFolder();
+        });
+        
+        // Open external links in the default browser
+        socialLinks.forEach(link => {
+            link.addEventListener("click", (event) => {
+                event.preventDefault();
+                const url = link.getAttribute("href");
+                window.electron.openExternal(url);
+            });
         });
     } else {
         // Running in a normal browser, show default message

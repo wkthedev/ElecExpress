@@ -6,6 +6,8 @@ const chokidar = require('chokidar');
 const livereload = require("livereload");
 const connectLivereload = require("connect-livereload");
 
+const sql = require("./sql");  // Import SQL functions
+
 let mainWindow;
 const server = express();
 const PORT = 4269;

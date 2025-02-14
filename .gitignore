@@ -4,3 +4,4 @@ dist
 /.history
 /node_modules
 /serve
+/.vscode

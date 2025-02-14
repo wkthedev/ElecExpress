@@ -5,25 +5,33 @@
   "main": "main.js",
   "scripts": {
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "electron-builder",
     "build:win": "electron-builder --win",
     "build:mac": "electron-builder --mac",
-    "build:linux": "electron-builder --linux"
+    "build:linux": "electron-builder --linux",
+    "test": "jest"
+  },
+  "jest": {
+    "setupFiles": ["./tests/setup.js"],
+    "testEnvironment": "jsdom"
   },
   "keywords": [],
   "author": "wkthedev",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.21.2",
+    "better-sqlite3": "^11.8.1",
     "chokidar": "^4.0.3",
+    "connect-livereload": "^0.6.1",
+    "express": "^4.21.2",
     "livereload": "^0.9.3",
-    "connect-livereload": "^0.6.1"
+    "sqlite3": "^5.1.7"
   },
   "devDependencies": {
     "electron": "^34.2.0",
     "electron-builder": "^25.1.8",
-    "electron-reload": "^2.0.0-alpha.1"
+    "electron-reload": "^2.0.0-alpha.1",
+    "jest": "^24.9.0",
+    "jest-electron": "^0.1.12"
   },
   "build": {
     "appId": "com.wkthedev.elecexpress",
